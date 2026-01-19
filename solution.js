@@ -168,9 +168,9 @@ async function verifyUpload(client, expectedCameraCount) {
   console.log('\n🔍 Verifying upload...');
   
   try {
-    // Wait a moment for Algolia to process
-    console.log('   Waiting 5 seconds for Algolia to process...');
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    // Wait longer for Algolia to fully process and index
+    console.log('   Waiting 10 seconds for Algolia to fully index...');
+    await new Promise(resolve => setTimeout(resolve, 10000));
     
     // Get total count
     const allResults = await client.searchSingleIndex({
@@ -209,7 +209,7 @@ async function verifyUpload(client, expectedCameraCount) {
     console.log(`   Cameras with original_price: ${cameraWithPrice.nbHits}`);
     
     // Check a sample camera
-    if (cameraResults.nbHits > 0) {
+    if (cameraWithPrice.nbHits > 0) {
       const sample = await client.searchSingleIndex({
         indexName: INDEX_NAME,
         searchParameters: {
@@ -262,6 +262,8 @@ async function verifyUpload(client, expectedCameraCount) {
       console.log('⚠️  Issues detected:');
       console.log(`   Expected: 10,000 total, ${expectedCameraCount} cameras`);
       console.log(`   Got: ${allResults.nbHits} total, ${cameraResults.nbHits} cameras`);
+      console.log('\n   Note: If filters show wrong counts, the index may need more time.');
+      console.log('   You can verify manually in the Algolia Dashboard.');
     }
     
   } catch (error) {
