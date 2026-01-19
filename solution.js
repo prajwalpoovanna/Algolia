@@ -149,6 +149,9 @@ async function uploadToAlgolia(transformedProducts) {
         ]
       }
     });
+
+    // Give Algolia time to apply settings before verification
+    await new Promise(resolve => setTimeout(resolve, 3000));
     
     console.log(`\n✅ Upload complete! ${transformedProducts.length} products`);
     
