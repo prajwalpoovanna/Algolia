@@ -134,6 +134,22 @@ async function uploadToAlgolia(transformedProducts) {
       objects: transformedProducts
     });
     
+    // Apply minimal settings needed for verification filters
+    await client.setSettings({
+      indexName: INDEX_NAME,
+      indexSettings: {
+        attributesForFaceting: [
+          'is_camera',
+          'original_price',
+          'brand',
+          'categories',
+          'price',
+          'rating',
+          'searchable(brand)'
+        ]
+      }
+    });
+    
     console.log(`\n✅ Upload complete! ${transformedProducts.length} products`);
     
     return client;
