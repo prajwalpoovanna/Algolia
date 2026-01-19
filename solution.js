@@ -175,8 +175,10 @@ async function verifyUpload(client, expectedCameraCount) {
     // Get total count
     const allResults = await client.searchSingleIndex({
       indexName: INDEX_NAME,
-      query: '',
-      hitsPerPage: 0
+      searchParameters: {
+        query: '',
+        hitsPerPage: 0
+      }
     });
     
     console.log(`   Total in index: ${allResults.nbHits}`);
@@ -184,9 +186,11 @@ async function verifyUpload(client, expectedCameraCount) {
     // Get cameras using is_camera field
     const cameraResults = await client.searchSingleIndex({
       indexName: INDEX_NAME,
-      query: '',
-      filters: 'is_camera:true',
-      hitsPerPage: 0
+      searchParameters: {
+        query: '',
+        filters: 'is_camera:true',
+        hitsPerPage: 0
+      }
     });
     
     console.log(`   Cameras found (is_camera:true): ${cameraResults.nbHits}`);
@@ -195,9 +199,11 @@ async function verifyUpload(client, expectedCameraCount) {
     // Also check with original_price filter
     const cameraWithPrice = await client.searchSingleIndex({
       indexName: INDEX_NAME,
-      query: '',
-      filters: 'is_camera:true AND original_price > 0',
-      hitsPerPage: 0
+      searchParameters: {
+        query: '',
+        filters: 'is_camera:true AND original_price > 0',
+        hitsPerPage: 0
+      }
     });
     
     console.log(`   Cameras with original_price: ${cameraWithPrice.nbHits}`);
@@ -206,9 +212,11 @@ async function verifyUpload(client, expectedCameraCount) {
     if (cameraResults.nbHits > 0) {
       const sample = await client.searchSingleIndex({
         indexName: INDEX_NAME,
-        query: '',
-        filters: 'is_camera:true AND original_price > 0',
-        hitsPerPage: 1
+        searchParameters: {
+          query: '',
+          filters: 'is_camera:true AND original_price > 0',
+          hitsPerPage: 1
+        }
       });
       
       if (sample.hits[0]) {
@@ -229,8 +237,10 @@ async function verifyUpload(client, expectedCameraCount) {
     console.log('\n🔍 TEST: Looking for 360fly camera...');
     const testCamera = await client.searchSingleIndex({
       indexName: INDEX_NAME,
-      query: '360fly',
-      hitsPerPage: 1
+      searchParameters: {
+        query: '360fly',
+        hitsPerPage: 1
+      }
     });
     
     if (testCamera.hits[0]) {
