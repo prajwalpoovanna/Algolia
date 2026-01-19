@@ -101,8 +101,9 @@
   font-size: inherit;
 }
 
-.result-hit > * {
-  pointer-events: none
+/* Allow clicks on button controls */
+.result-hit__controls button {
+  pointer-events: auto;
 }
 
 #searchbox {
