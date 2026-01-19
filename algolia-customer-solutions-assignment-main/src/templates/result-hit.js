@@ -1,7 +1,7 @@
 
 const resultHit = hit => `
   <div class="result-hit" data-objectid="${hit.objectID}">
-    <a href="#" class="result-hit__link" onclick="return false;">
+    <a href="#" class="result-hit__link">
       <div class="result-hit__image-container">
         <img class="result-hit__image" src="${hit.image}" />
       </div>
@@ -11,8 +11,8 @@ const resultHit = hit => `
       </div>
     </a>
     <div class="result-hit__controls">
-      <button class="result-hit__view" data-insights-event="click">View</button>
-      <button class="result-hit__cart" data-insights-event="conversion">Add To Cart</button>
+      <button class="result-hit__view" data-track-event="click">View</button>
+      <button class="result-hit__cart" data-track-event="conversion">Add To Cart</button>
     </div>
   </div>
 `;

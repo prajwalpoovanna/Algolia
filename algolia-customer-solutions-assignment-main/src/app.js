@@ -18,31 +18,16 @@ class SpencerAndWilliamsSearch {
   }
 
   _registerInsightsEvents() {
-    // Listen for button clicks on the document
     document.addEventListener('click', (event) => {
-      const target = event.target;
-      
-      // If the target itself is a button with the attribute, use it
-      if (target.tagName === 'BUTTON' && target.hasAttribute('data-insights-event')) {
-        this._handleInsightsEvent(target);
-        return;
+      const btn = event.target.closest('button[data-track-event]');
+      if (btn) {
+        this._handleInsightsEvent(btn);
       }
-      
-      // Otherwise check parents up to 5 levels
-      let el = target;
-      for (let i = 0; i < 5; i++) {
-        el = el.parentElement;
-        if (!el) break;
-        if (el.tagName === 'BUTTON' && el.hasAttribute('data-insights-event')) {
-          this._handleInsightsEvent(el);
-          return;
-        }
-      }
-    }, false); // Use bubble phase
+    }, false);
   }
 
   _handleInsightsEvent(trackedElement) {
-    const eventType = trackedElement.getAttribute('data-insights-event');
+    const eventType = trackedElement.getAttribute('data-track-event');
     const hitElement = trackedElement.closest('[data-objectid]');
     
     if (!hitElement) {
@@ -57,12 +42,16 @@ class SpencerAndWilliamsSearch {
     }
 
     if (eventType === 'click') {
-      aa('clickedObjectIDsAfterSearch', {
+      aa('clickedObjectIDs', {
+        eventName: 'Product Clicked',
+        index: process.env.ALGOLIA_INDEX,
         objectIDs: [objectID],
       });
       console.log('✅ Click event sent for:', objectID);
     } else if (eventType === 'conversion') {
-      aa('convertedObjectIDsAfterSearch', {
+      aa('convertedObjectIDs', {
+        eventName: 'Product Added to Cart',
+        index: process.env.ALGOLIA_INDEX,
         objectIDs: [objectID],
       });
       console.log('✅ Conversion event sent for:', objectID);

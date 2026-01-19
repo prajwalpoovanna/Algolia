@@ -40,9 +40,6 @@
   min-width: 150px;
 }
 
-.header__logo svg {
-  fill: white;
-}
 
 .header__searchbox-container {
   height: 32px;
@@ -101,10 +98,6 @@
   font-size: inherit;
 }
 
-/* Allow clicks on button controls */
-.result-hit__controls button {
-  pointer-events: auto;
-}
 
 #searchbox {
   margin-bottom: 2rem;
