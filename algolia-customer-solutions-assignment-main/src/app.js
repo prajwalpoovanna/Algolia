@@ -1,16 +1,7 @@
 import ResultsPage from './components/results-page';
 import aa from 'search-insights';
 
-console.log('=== app.js loaded ===');
-console.log('search-insights library:', aa);
-
-// Initialize Algolia Insights
-console.log('Initializing Insights with:', {
-  appId: process.env.ALGOLIA_APP_ID,
-  apiKey: process.env.ALGOLIA_API_KEY,
-  index: process.env.ALGOLIA_INDEX
-});
-
+// Initialize Algolia Insights for tracking user interactions
 aa('init', {
   appId: process.env.ALGOLIA_APP_ID,
   apiKey: process.env.ALGOLIA_API_KEY,
@@ -19,39 +10,20 @@ aa('init', {
 
 class SpencerAndWilliamsSearch {
   constructor() {
-    console.log('Initializing SpencerAndWilliamsSearch');
     this._initSearch();
-    
-    // Wait a moment for DOM to render, then check if buttons exist
-    setTimeout(() => {
-      this._checkButtonsInDOM();
-      this._registerInsightsEvents();
-    }, 500);
+    this._registerInsightsEvents();
   }
-
-  _checkButtonsInDOM() {
-    const buttons = document.querySelectorAll('[data-insights-event]');
-    console.log('🔍 Buttons found in DOM:', buttons.length);
-    buttons.forEach(btn => {
-      console.log('  - Button:', btn.tagName, btn.className, btn.getAttribute('data-insights-event'), btn.textContent);
-    });
-  }
-
   _initSearch() {
     this.resultPage = new ResultsPage();
   }
 
   _registerInsightsEvents() {
-    console.log('Registering Insights event listeners');
-    
-    // Simple approach: Listen on document with bubble phase (not capture)
+    // Listen for button clicks on the document
     document.addEventListener('click', (event) => {
       const target = event.target;
-      console.log('📍 Click target:', target.tagName, target.getAttribute('data-insights-event'));
       
       // If the target itself is a button with the attribute, use it
       if (target.tagName === 'BUTTON' && target.hasAttribute('data-insights-event')) {
-        console.log('✅✅✅ DIRECT BUTTON CLICK:', target.getAttribute('data-insights-event'));
         this._handleInsightsEvent(target);
         return;
       }
@@ -62,7 +34,6 @@ class SpencerAndWilliamsSearch {
         el = el.parentElement;
         if (!el) break;
         if (el.tagName === 'BUTTON' && el.hasAttribute('data-insights-event')) {
-          console.log('✅✅✅ BUTTON FOUND IN PARENTS:', el.getAttribute('data-insights-event'));
           this._handleInsightsEvent(el);
           return;
         }
