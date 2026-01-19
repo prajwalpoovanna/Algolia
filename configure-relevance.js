@@ -28,6 +28,9 @@ async function configureRelevance() {
         'price',
         'rating',
         'searchable(brand)',
+        // Added for verification and filtering
+        'is_camera',
+        'original_price',
       ],
     };
 
