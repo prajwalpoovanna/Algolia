@@ -145,7 +145,6 @@ async function uploadToAlgolia(transformedProducts) {
   }
 }
 
-// (Verification removed for a cleaner demo output)
 
 // 6. Main function
 async function main() {
@@ -164,7 +163,6 @@ async function main() {
     
     // Success!
     console.log('\n' + '='.repeat(50));
-    console.log('🎉 PART 1 COMPLETED SUCCESSFULLY!');
     console.log('\n✅ 10,000 products uploaded');
     console.log(`✅ ${cameraCount} cameras discounted by 20%`);
     console.log('✅ Prices rounded down correctly');
